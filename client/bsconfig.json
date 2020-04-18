@@ -1,0 +1,33 @@
+{
+  "name": "codenames",
+  "reason": {
+    "react-jsx": 3
+  },
+  "bsc-flags": [
+    "-bs-super-errors"
+  ],
+  "warnings": {
+    "number": "-44",
+    "error": "+8+26+27"
+  },
+  "sources": [
+    {
+      "dir": "src",
+      "subdirs": true
+    }
+  ],
+  "package-specs": [
+    {
+      "module": "es6",
+      "in-source": true
+    }
+  ],
+  "suffix": ".bs.js",
+  "namespace": true,
+  "bs-dependencies": [
+    "reason-react",
+    "bs-socket"
+  ],
+  "ppx-flags": [],
+  "refmt": 3
+}

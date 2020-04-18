@@ -1,0 +1,47 @@
+html, body {
+  width: 100vw;
+  height: 100vh;
+  background: #706fd3;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+.selected {
+  border: 3px solid white;
+}
+
+.red {
+  color: white;
+  background: #b33939;
+}
+
+.gray {
+  background: #f7f1e3;
+}
+
+.blue {
+  color: #fff;
+  background: #2c2c54;
+}
+
+.black {
+  color: #fff;
+  background-color: black;
+}
+
+.header {
+  height: 40px;
+  padding: 4px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+}
+
+.button {
+  padding: 2px;
+}
