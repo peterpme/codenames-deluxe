@@ -1,8 +1,13 @@
 # Codenames Deluxe Online
 
-Built using:
+Showcasing using the following tools:
 - [ReasonML](https://reasonml.github.io)
 - [Create React App](https://create-react-app.dev)
+- [GenType](https://github.com/cristiano/gen-type)
+- [Socket.io]()
+- [BS.Socket]()
+- [Fly](https://fly.io)
+- [Redis]()
 
 ## What is Codenames?
 
