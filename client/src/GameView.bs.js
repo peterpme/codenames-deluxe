@@ -3,6 +3,7 @@
 import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
+import * as T$Codenames from "./T.bs.js";
 
 var tiles = [
   {
@@ -132,30 +133,16 @@ var tiles = [
   }
 ];
 
-function getColor(color) {
-  switch (color) {
-    case /* Black */0 :
-        return "black";
-    case /* Blue */1 :
-        return "blue";
-    case /* Red */2 :
-        return "red";
-    case /* Neutral */3 :
-        return "gray";
-    
-  }
-}
-
-function Game$Tile(Props) {
+function GameView$Tile(Props) {
   var showAll = Props.showAll;
   var word = Props.word;
   var color = Props.color;
   var status = Props.status;
   var onClick = Props.onClick;
   var cs = showAll ? (
-      status ? "selected " + getColor(color) : getColor(color)
+      status ? "selected " + T$Codenames.getColor(color) : T$Codenames.getColor(color)
     ) : (
-      status ? getColor(color) : ""
+      status ? T$Codenames.getColor(color) : ""
     );
   var disabled = status === /* Turned */1;
   return React.createElement("button", {
@@ -168,17 +155,17 @@ function Game$Tile(Props) {
 }
 
 var Tile = {
-  make: Game$Tile
+  make: GameView$Tile
 };
 
-function Game$Board(Props) {
+function GameView$Board(Props) {
   var showAll = Props.showAll;
   var tiles = Props.tiles;
   var onClick = Props.onClick;
   return React.createElement("main", {
               className: "grid grid-cols-5 grid-rows-5 gap-2 h-full"
             }, Belt_Array.map(tiles, (function (t) {
-                    return React.createElement(Game$Tile, {
+                    return React.createElement(GameView$Tile, {
                                 showAll: showAll,
                                 word: t.word,
                                 color: t.color,
@@ -189,10 +176,10 @@ function Game$Board(Props) {
 }
 
 var Board = {
-  make: Game$Board
+  make: GameView$Board
 };
 
-function Game$Button(Props) {
+function GameView$Button(Props) {
   var label = Props.label;
   var onClick = Props.onClick;
   return React.createElement("button", {
@@ -204,10 +191,10 @@ function Game$Button(Props) {
 }
 
 var Button = {
-  make: Game$Button
+  make: GameView$Button
 };
 
-function Game$Score(Props) {
+function GameView$Score(Props) {
   var red = Props.red;
   var blue = Props.blue;
   return React.createElement("div", {
@@ -220,10 +207,10 @@ function Game$Score(Props) {
 }
 
 var Score = {
-  make: Game$Score
+  make: GameView$Score
 };
 
-function Game$Header(Props) {
+function GameView$Header(Props) {
   var blueScore = Props.blueScore;
   var redScore = Props.redScore;
   var onClickNewGame = Props.onClickNewGame;
@@ -232,27 +219,27 @@ function Game$Header(Props) {
               className: "bg-white flex justify-between items-center rounded p-1"
             }, React.createElement("h1", {
                   className: "font-bold text-lg"
-                }, "Virtual Codenames"), React.createElement(Game$Score, {
+                }, "Virtual Codenames"), React.createElement(GameView$Score, {
                   red: redScore,
                   blue: blueScore
                 }), React.createElement("div", {
                   className: "flex"
-                }, React.createElement(Game$Button, {
+                }, React.createElement(GameView$Button, {
                       label: "Spymaster",
                       onClick: onClickSpymaster
                     }), React.createElement("div", {
                       className: "w-1"
-                    }), React.createElement(Game$Button, {
+                    }), React.createElement(GameView$Button, {
                       label: "New Game",
                       onClick: onClickNewGame
                     })));
 }
 
 var Header = {
-  make: Game$Header
+  make: GameView$Header
 };
 
-function Game(Props) {
+function GameView(Props) {
   var id = Props.id;
   React.useEffect((function () {
           console.log(id);
@@ -340,7 +327,7 @@ function Game(Props) {
               className: "max-w-screen-xl mx-auto flex flex-col h-screen"
             }, React.createElement("div", {
                   className: "mb-2"
-                }, React.createElement(Game$Header, {
+                }, React.createElement(GameView$Header, {
                       blueScore: state.blueScore,
                       redScore: state.redScore,
                       onClickNewGame: (function (param) {
@@ -351,18 +338,17 @@ function Game(Props) {
                           console.log("hey");
                           return /* () */0;
                         })
-                    })), React.createElement(Game$Board, {
+                    })), React.createElement(GameView$Board, {
                   showAll: state.showAll,
                   tiles: state.tiles,
                   onClick: onClickTile
                 }));
 }
 
-var make = Game;
+var make = GameView;
 
 export {
   tiles ,
-  getColor ,
   Tile ,
   Board ,
   Button ,

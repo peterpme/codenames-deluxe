@@ -1,19 +1,4 @@
-type player =
-  | Spymaster
-  | Regular;
-type status =
-  | Hidden
-  | Turned;
-type color =
-  | Black
-  | Blue
-  | Red
-  | Neutral;
-type tile = {
-  word: string,
-  status,
-  color,
-};
+open T;
 
 let tiles = [|
   {word: "LEMONS", status: Hidden, color: Black},
@@ -42,14 +27,6 @@ let tiles = [|
   {word: "MOUSE", status: Hidden, color: Blue},
   {word: "KEYBOARD", status: Hidden, color: Red},
 |];
-
-let getColor = color =>
-  switch (color) {
-  | Blue => "blue"
-  | Red => "red"
-  | Black => "black"
-  | Neutral => "gray"
-  };
 
 module Tile = {
   [@react.component]

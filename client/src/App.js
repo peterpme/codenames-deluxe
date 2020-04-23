@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { make as Game } from "./Game.bs";
+import { make as Lobby } from "./Lobby.bs";
 import "./App.css";
 
 import useSocket from "use-socket.io-client";
@@ -9,14 +10,14 @@ export default function App() {
   socket.connect();
 
   useEffect(() => {
-    socket.on("connect", data => {
+    socket.on("connect", (data) => {
       socket.emit("join", "123");
     });
 
-    socket.on("updatedTile", data => {
+    socket.on("updatedTile", (data) => {
       console.log("new tile", data);
     });
   }, socket);
 
-  return <Game />;
+  return <Lobby />;
 }

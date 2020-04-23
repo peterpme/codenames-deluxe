@@ -1,8 +1,22 @@
+type state = Router.route;
+
+[@react.component]
 let make = () => {
-  let url = ReasonReactRouter.useUrl();
-  switch (url.path) {
-  | [id] => <Game id />
-  | [] => <JoinGame />
-  | _ => <JoinGame />
+  let (route, onChangeRoute) = React.useState(_ => Router.currentRoute());
+
+  React.useEffect0(() => {
+    let watchId =
+      Router.watchUrl(url => {
+        let route = url |> Router.fromUrl;
+        onChangeRoute(_ => route);
+      });
+    Some(() => Router.unwatchUrl(watchId));
+  });
+
+  switch (route) {
+  | Lobby => <LobbyView />
+  | Game(id) => <GameView id />
   };
 };
+
+let default = make;
