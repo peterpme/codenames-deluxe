@@ -1,5 +1,7 @@
 open T;
 
+module MyClient = BsSocket.Client.Make(CodeNamesGame);
+
 module Tile = {
   [@react.component]
   let make = (~word, ~color, ~status, ~onClick) => {
@@ -94,6 +96,8 @@ type action =
   | ShowAll
   | Toggle(string, color);
 
+/* type action = ToggleSpymaster | UpdateGame | UpdateBoard */
+
 type game = {
   blueScore: int,
   redScore: int,
@@ -115,6 +119,12 @@ let defaultState = {
 [@react.component]
 let make = (~id) => {
   React.useEffect0(() => {
+    let socket = SocketClient.create();
+
+    SocketClient.on(socket, Codenames.updateboard, data => {
+      dispatch(UpdateBoard(data))
+    });
+
     Js.log(id);
     Js.log("get worrds here");
     None;
