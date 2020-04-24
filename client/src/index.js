@@ -1,6 +1,6 @@
+import "./tailwind.css";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./tailwind.css";
 import { make as App } from "./App.bs";
 import * as serviceWorker from "./serviceWorker";
 

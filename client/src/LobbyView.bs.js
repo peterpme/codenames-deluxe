@@ -22,7 +22,7 @@ function LobbyView(Props) {
                   className: "font-sans text-4xl mb-2"
                 }, "Codenames Online"), React.createElement("p", {
                   className: "font-sans text-md"
-                }, "Play Codenames online across multiple devices on a shared board. To create a new game or join an existing\n         game, enter a game identifier and click Join Game."), React.createElement("div", {
+                }, "Play Codenames online across multiple devices on a shared board. To create a new game or join an existing\n                     game, enter a game identifier and click Join Game."), React.createElement("div", {
                   className: "h-8"
                 }), React.createElement("form", {
                   className: "w-3/4 mx-auto flex items-center",

@@ -1,5 +1,3 @@
-import React, { useEffect } from "react";
-import { make as Game } from "./Game.bs";
 import { make as Lobby } from "./Lobby.bs";
 import "./App.css";
 

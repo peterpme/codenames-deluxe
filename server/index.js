@@ -16,34 +16,44 @@ function shuffle(a) {
   return a;
 }
 
+function color(words) {
+  return words.map((word, index, array) => {
+    if (index < 9) return { word, color: "red" };
+    if (9 <= index < 8) return { word, color: "blue" };
+    if (index < 8) return { word, color: "gray" };
+    return "black";
+  });
+}
+
 app.get("/words", (req, res) => {
   const words = [];
   const rl = readline.createInterface({
     input: fs.createReadStream("./words.txt"),
-    crlfDelay: Infinity
+    crlfDelay: Infinity,
   });
 
-  rl.on("line", line => {
+  rl.on("line", (line) => {
     words.push(line);
+  }).on("close", () => {
+    const shuffled = shuffle(words);
+    const first25 = shuffled.slice(0, 25);
+    const colored = color(first25);
+    res.json(shuffle(colored));
   });
-
-  if (words.length === 25) {
-    res.json(words);
-  }
 });
 
-io.on("connection", client => {
-  client.on("join", game => {
+io.on("connection", (client) => {
+  client.on("join", (game) => {
     console.log("joined", game);
     client.join(game);
     io.emit("joined", game);
   });
 
-  client.on("selectTile", data => {
+  client.on("selectTile", (data) => {
     io.emit("updatedTile", data.index);
   });
 
-  client.on("disconnect", function() {
+  client.on("disconnect", function () {
     io.emit("user disconnected");
   });
 });

@@ -5,148 +5,15 @@ import * as React from "react";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as T$Codenames from "./T.bs.js";
 
-var tiles = [
-  {
-    word: "LEMONS",
-    status: /* Hidden */0,
-    color: /* Black */0
-  },
-  {
-    word: "WATER",
-    status: /* Hidden */0,
-    color: /* Neutral */3
-  },
-  {
-    word: "ORANGE",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "COMPUTER",
-    status: /* Hidden */0,
-    color: /* Red */2
-  },
-  {
-    word: "DOLPHIN",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "ALASKAN",
-    status: /* Hidden */0,
-    color: /* Red */2
-  },
-  {
-    word: "ANTARTICA",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "TELEVISION",
-    status: /* Hidden */0,
-    color: /* Red */2
-  },
-  {
-    word: "PIEKARCZYK",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "MONKEY",
-    status: /* Hidden */0,
-    color: /* Neutral */3
-  },
-  {
-    word: "KITCHEN",
-    status: /* Hidden */0,
-    color: /* Neutral */3
-  },
-  {
-    word: "REFRIGERATOR",
-    status: /* Hidden */0,
-    color: /* Neutral */3
-  },
-  {
-    word: "BLUEBERRIES",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "TILES",
-    status: /* Hidden */0,
-    color: /* Red */2
-  },
-  {
-    word: "FLOOR",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "CONSOLE",
-    status: /* Hidden */0,
-    color: /* Red */2
-  },
-  {
-    word: "LAPTOP",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "MONITOR",
-    status: /* Hidden */0,
-    color: /* Red */2
-  },
-  {
-    word: "MATTHEWS",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "ZEBRA",
-    status: /* Hidden */0,
-    color: /* Neutral */3
-  },
-  {
-    word: "DESK",
-    status: /* Hidden */0,
-    color: /* Neutral */3
-  },
-  {
-    word: "FRESH",
-    status: /* Hidden */0,
-    color: /* Red */2
-  },
-  {
-    word: "PEPSI",
-    status: /* Hidden */0,
-    color: /* Neutral */3
-  },
-  {
-    word: "MOUSE",
-    status: /* Hidden */0,
-    color: /* Blue */1
-  },
-  {
-    word: "KEYBOARD",
-    status: /* Hidden */0,
-    color: /* Red */2
-  }
-];
-
 function GameView$Tile(Props) {
-  var showAll = Props.showAll;
   var word = Props.word;
   var color = Props.color;
   var status = Props.status;
   var onClick = Props.onClick;
-  var cs = showAll ? (
-      status ? "selected " + T$Codenames.getColor(color) : T$Codenames.getColor(color)
-    ) : (
-      status ? T$Codenames.getColor(color) : ""
-    );
+  var cs = status ? "selected " + T$Codenames.getColor(color) : "bg-white";
   var disabled = status === /* Turned */1;
   return React.createElement("button", {
-              className: "text-black rounded text-center cursor-pointer\n        font-bold bg-white " + cs,
+              className: "text-black rounded text-center cursor-pointer font-bold " + cs,
               disabled: disabled,
               onClick: (function (param) {
                   return Curry._2(onClick, word, color);
@@ -162,11 +29,12 @@ function GameView$Board(Props) {
   var showAll = Props.showAll;
   var tiles = Props.tiles;
   var onClick = Props.onClick;
+  var showAllClass = showAll === true ? " spymaster" : "";
+  var className = "grid grid-cols-5 grid-rows-5 gap-2 h-full" + showAllClass;
   return React.createElement("main", {
-              className: "grid grid-cols-5 grid-rows-5 gap-2 h-full"
+              className: className
             }, Belt_Array.map(tiles, (function (t) {
                     return React.createElement(GameView$Tile, {
-                                showAll: showAll,
                                 word: t.word,
                                 color: t.color,
                                 status: t.status,
@@ -183,7 +51,7 @@ function GameView$Button(Props) {
   var label = Props.label;
   var onClick = Props.onClick;
   return React.createElement("button", {
-              className: "bg-blue-500 hover:bg-blue-600 text-white font-medium py-1 px-3\n      rounded transition duration-75",
+              className: "bg-blue-500 hover:bg-blue-600 text-white font-medium text-sm py-1 px-4\n      rounded transition duration-75",
               onClick: (function (param) {
                   return Curry._1(onClick, /* () */0);
                 })
@@ -217,9 +85,13 @@ function GameView$Header(Props) {
   var onClickSpymaster = Props.onClickSpymaster;
   return React.createElement("header", {
               className: "bg-white flex justify-between items-center rounded p-1"
-            }, React.createElement("h1", {
-                  className: "font-bold text-lg"
-                }, "Virtual Codenames"), React.createElement(GameView$Score, {
+            }, React.createElement("div", {
+                  className: "flex items-center"
+                }, React.createElement("h1", {
+                      className: "font-bold text-md"
+                    }, "Codenames Deluxe", React.createElement("span", {
+                          className: "ml-2 font-medium text-sm"
+                        }, "| turtles"))), React.createElement(GameView$Score, {
                   red: redScore,
                   blue: blueScore
                 }), React.createElement("div", {
@@ -239,10 +111,20 @@ var Header = {
   make: GameView$Header
 };
 
+var defaultState = {
+  blueScore: 8,
+  redScore: 9,
+  showAll: false,
+  channel: "fun-fridays",
+  firstTurn: "blue",
+  tiles: T$Codenames.tiles
+};
+
 function GameView(Props) {
   var id = Props.id;
   React.useEffect((function () {
           console.log(id);
+          console.log("get worrds here");
           return ;
         }), ([]));
   var match = React.useReducer((function (state, action) {
@@ -307,17 +189,11 @@ function GameView(Props) {
                     tiles: state.tiles
                   };
           }
-        }), {
-        blueScore: 8,
-        redScore: 9,
-        showAll: false,
-        channel: "fun-fridays",
-        firstTurn: "blue",
-        tiles: tiles
-      });
+        }), defaultState);
   var dispatch = match[1];
   var state = match[0];
   var onClickTile = function (word, color) {
+    console.log(word);
     return Curry._1(dispatch, /* Toggle */[
                 word,
                 color
@@ -335,8 +211,7 @@ function GameView(Props) {
                           return /* () */0;
                         }),
                       onClickSpymaster: (function (param) {
-                          console.log("hey");
-                          return /* () */0;
+                          return Curry._1(dispatch, /* ShowAll */0);
                         })
                     })), React.createElement(GameView$Board, {
                   showAll: state.showAll,
@@ -348,12 +223,12 @@ function GameView(Props) {
 var make = GameView;
 
 export {
-  tiles ,
   Tile ,
   Board ,
   Button ,
   Score ,
   Header ,
+  defaultState ,
   make ,
   
 }

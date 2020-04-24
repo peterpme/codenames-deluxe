@@ -15,8 +15,137 @@ function getColor(color) {
   }
 }
 
+var tiles = [
+  {
+    word: "LEMONS",
+    status: /* Hidden */0,
+    color: /* Black */0
+  },
+  {
+    word: "WATER",
+    status: /* Hidden */0,
+    color: /* Neutral */3
+  },
+  {
+    word: "ORANGE",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "COMPUTER",
+    status: /* Hidden */0,
+    color: /* Red */2
+  },
+  {
+    word: "DOLPHIN",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "ALASKAN",
+    status: /* Hidden */0,
+    color: /* Red */2
+  },
+  {
+    word: "ANTARTICA",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "TELEVISION",
+    status: /* Hidden */0,
+    color: /* Red */2
+  },
+  {
+    word: "PIEKARCZYK",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "MONKEY",
+    status: /* Hidden */0,
+    color: /* Neutral */3
+  },
+  {
+    word: "KITCHEN",
+    status: /* Hidden */0,
+    color: /* Neutral */3
+  },
+  {
+    word: "REFRIGERATOR",
+    status: /* Hidden */0,
+    color: /* Neutral */3
+  },
+  {
+    word: "BLUEBERRIES",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "TILES",
+    status: /* Hidden */0,
+    color: /* Red */2
+  },
+  {
+    word: "FLOOR",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "CONSOLE",
+    status: /* Hidden */0,
+    color: /* Red */2
+  },
+  {
+    word: "LAPTOP",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "MONITOR",
+    status: /* Hidden */0,
+    color: /* Red */2
+  },
+  {
+    word: "MATTHEWS",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "ZEBRA",
+    status: /* Hidden */0,
+    color: /* Neutral */3
+  },
+  {
+    word: "DESK",
+    status: /* Hidden */0,
+    color: /* Neutral */3
+  },
+  {
+    word: "FRESH",
+    status: /* Hidden */0,
+    color: /* Red */2
+  },
+  {
+    word: "PEPSI",
+    status: /* Hidden */0,
+    color: /* Neutral */3
+  },
+  {
+    word: "MOUSE",
+    status: /* Hidden */0,
+    color: /* Blue */1
+  },
+  {
+    word: "KEYBOARD",
+    status: /* Hidden */0,
+    color: /* Red */2
+  }
+];
+
 export {
   getColor ,
+  tiles ,
   
 }
 /* No side effect */

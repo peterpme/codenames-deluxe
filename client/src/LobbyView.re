@@ -16,7 +16,7 @@ let make = () => {
     <p className="font-sans text-md">
       {React.string(
          "Play Codenames online across multiple devices on a shared board. To create a new game or join an existing
-         game, enter a game identifier and click Join Game.",
+                     game, enter a game identifier and click Join Game.",
        )}
     </p>
     <div className="h-8" />
