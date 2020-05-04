@@ -26,7 +26,7 @@
   "namespace": true,
   "bs-dependencies": [
     "reason-react",
-    "bs-socket"
+    "re-classnames"
   ],
   "ppx-flags": [],
   "refmt": 3

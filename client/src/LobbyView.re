@@ -1,5 +1,12 @@
 [@bs.module "slug"] external slug: string => string = "default";
 
+module Mo = {
+  [@react.component]
+  let make = (~render) => {
+    render();
+  };
+};
+
 [@react.component]
 let make = () => {
   let (roomName, setRoomName) = React.useState(_ => "turtles");
@@ -9,8 +16,8 @@ let make = () => {
     ReasonReactRouter.push("/" ++ s);
   };
 
-  <main className="mt-12 container mx-auto max-w-md text-center">
-    <h1 className="font-sans text-4xl mb-2">
+  <main className="container max-w-md mx-auto mt-12 text-center">
+    <h1 className="mb-2 font-sans text-4xl">
       {React.string("Codenames Online")}
     </h1>
     <p className="font-sans text-md">
@@ -20,7 +27,7 @@ let make = () => {
        )}
     </p>
     <div className="h-8" />
-    <form onSubmit className="w-3/4 mx-auto flex items-center">
+    <form onSubmit className="flex items-center w-3/4 mx-auto">
       <input
         className="block w-full h-12 px-4 py-3 leading-tight text-gray-700 bg-gray-200 appearance-none focus:outline-none focus:bg-white"
         type_="text"
@@ -34,9 +41,10 @@ let make = () => {
       />
       <button
         type_="submit"
-        className="flex-none h-12 py-2 px-4 bg-blue-400 block appearance-none text-white">
+        className="flex-none block h-12 px-4 py-2 text-white bg-blue-400 appearance-none">
         {React.string("Join Game")}
       </button>
+      <Mo render={() => <div />} />
     </form>
   </main>;
 };

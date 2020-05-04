@@ -1,6 +1,6 @@
 [%bs.raw {|require('./App.css')|}];
-type state = Router.route;
 
+type state = Router.route;
 [@react.component]
 let make = () => {
   let (route, onChangeRoute) = React.useState(_ => Router.currentRoute());

@@ -13,7 +13,7 @@ export default function App() {
     });
 
     socket.on("updatedTile", (data) => {
-      console.log("new tile", data);
+        socket.emit("updateTile", data);
     });
   }, socket);
 

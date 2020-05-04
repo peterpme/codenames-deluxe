@@ -4,112 +4,9 @@ import * as Curry from "bs-platform/lib/es6/curry.js";
 import * as React from "react";
 import * as Belt_Array from "bs-platform/lib/es6/belt_Array.js";
 import * as T$Codenames from "./T.bs.js";
-
-function GameView$Tile(Props) {
-  var word = Props.word;
-  var color = Props.color;
-  var status = Props.status;
-  var onClick = Props.onClick;
-  var cs = status ? "selected " + T$Codenames.getColor(color) : "bg-white";
-  var disabled = status === /* Turned */1;
-  return React.createElement("button", {
-              className: "text-black rounded text-center cursor-pointer font-bold " + cs,
-              disabled: disabled,
-              onClick: (function (param) {
-                  return Curry._2(onClick, word, color);
-                })
-            }, word);
-}
-
-var Tile = {
-  make: GameView$Tile
-};
-
-function GameView$Board(Props) {
-  var showAll = Props.showAll;
-  var tiles = Props.tiles;
-  var onClick = Props.onClick;
-  var showAllClass = showAll === true ? " spymaster" : "";
-  var className = "grid grid-cols-5 grid-rows-5 gap-2 h-full" + showAllClass;
-  return React.createElement("main", {
-              className: className
-            }, Belt_Array.map(tiles, (function (t) {
-                    return React.createElement(GameView$Tile, {
-                                word: t.word,
-                                color: t.color,
-                                status: t.status,
-                                onClick: onClick
-                              });
-                  })));
-}
-
-var Board = {
-  make: GameView$Board
-};
-
-function GameView$Button(Props) {
-  var label = Props.label;
-  var onClick = Props.onClick;
-  return React.createElement("button", {
-              className: "bg-blue-500 hover:bg-blue-600 text-white font-medium text-sm py-1 px-4\n      rounded transition duration-75",
-              onClick: (function (param) {
-                  return Curry._1(onClick, /* () */0);
-                })
-            }, label);
-}
-
-var Button = {
-  make: GameView$Button
-};
-
-function GameView$Score(Props) {
-  var red = Props.red;
-  var blue = Props.blue;
-  return React.createElement("div", {
-              className: "flex"
-            }, React.createElement("div", {
-                  className: "rounded-full w-6 h-6 bg-red-500 text-white text-center\n      mx-1"
-                }, String(red)), "vs", React.createElement("div", {
-                  className: "rounded-full w-6 h-6 bg-blue-500 text-white text-center\n        mx-1"
-                }, String(blue)));
-}
-
-var Score = {
-  make: GameView$Score
-};
-
-function GameView$Header(Props) {
-  var blueScore = Props.blueScore;
-  var redScore = Props.redScore;
-  var onClickNewGame = Props.onClickNewGame;
-  var onClickSpymaster = Props.onClickSpymaster;
-  return React.createElement("header", {
-              className: "bg-white flex justify-between items-center rounded p-1"
-            }, React.createElement("div", {
-                  className: "flex items-center"
-                }, React.createElement("h1", {
-                      className: "font-bold text-md"
-                    }, "Codenames Deluxe", React.createElement("span", {
-                          className: "ml-2 font-medium text-sm"
-                        }, "| turtles"))), React.createElement(GameView$Score, {
-                  red: redScore,
-                  blue: blueScore
-                }), React.createElement("div", {
-                  className: "flex"
-                }, React.createElement(GameView$Button, {
-                      label: "Spymaster",
-                      onClick: onClickSpymaster
-                    }), React.createElement("div", {
-                      className: "w-1"
-                    }), React.createElement(GameView$Button, {
-                      label: "New Game",
-                      onClick: onClickNewGame
-                    })));
-}
-
-var Header = {
-  make: GameView$Header
-};
+import * as Board$Codenames from "./Board.bs.js";
+import * as Header$Codenames from "./Header.bs.js";
+import * as SocketIoClient from "socket.io-client";
 
 var defaultState = {
   blueScore: 8,
@@ -123,57 +20,35 @@ var defaultState = {
 function GameView(Props) {
   var id = Props.id;
   React.useEffect((function () {
-          console.log(id);
-          console.log("get worrds here");
+          var socket = new SocketIoClient.default("http://localhost:8080");
+          socket.on("connect", (function (param) {
+                  console.log("connected");
+                  socket.emit("joinGame", id);
+                  return /* () */0;
+                }));
+          socket.on("joinGame", (function (words) {
+                  console.log("joinGame", words);
+                  return /* () */0;
+                }));
           return ;
         }), ([]));
   var match = React.useReducer((function (state, action) {
           if (action) {
-            var color = action[1];
             var word = action[0];
             var tiles = Belt_Array.map(state.tiles, (function (t) {
                     if (t.word === word) {
                       return {
                               word: t.word,
-                              status: /* Turned */1,
+                              selected: true,
                               color: t.color
                             };
                     } else {
                       return t;
                     }
                   }));
-            var match;
-            if (color !== 0) {
-              switch (color - 1 | 0) {
-                case /* Black */0 :
-                    match = /* tuple */[
-                      state.blueScore - 1 | 0,
-                      state.redScore
-                    ];
-                    break;
-                case /* Blue */1 :
-                    match = /* tuple */[
-                      state.redScore - 1 | 0,
-                      state.blueScore
-                    ];
-                    break;
-                case /* Red */2 :
-                    match = /* tuple */[
-                      state.blueScore,
-                      state.redScore
-                    ];
-                    break;
-                
-              }
-            } else {
-              match = /* tuple */[
-                state.blueScore,
-                state.redScore
-              ];
-            }
             return {
-                    blueScore: match[0],
-                    redScore: match[1],
+                    blueScore: state.blueScore,
+                    redScore: state.redScore,
                     showAll: state.showAll,
                     channel: state.channel,
                     firstTurn: state.firstTurn,
@@ -192,28 +67,25 @@ function GameView(Props) {
         }), defaultState);
   var dispatch = match[1];
   var state = match[0];
-  var onClickTile = function (word, color) {
-    console.log(word);
-    return Curry._1(dispatch, /* Toggle */[
-                word,
-                color
-              ]);
+  var onClickTile = function (word) {
+    return Curry._1(dispatch, /* SelectCard */[word]);
+  };
+  var onToggleSpymaster = function (param) {
+    return Curry._1(dispatch, /* Spymaster */0);
   };
   return React.createElement("div", {
-              className: "max-w-screen-xl mx-auto flex flex-col h-screen"
+              className: "flex flex-col h-screen mx-auto max-w-screen-xl"
             }, React.createElement("div", {
                   className: "mb-2"
-                }, React.createElement(GameView$Header, {
+                }, React.createElement(Header$Codenames.make, {
                       blueScore: state.blueScore,
                       redScore: state.redScore,
                       onClickNewGame: (function (param) {
                           console.log("hi");
                           return /* () */0;
                         }),
-                      onClickSpymaster: (function (param) {
-                          return Curry._1(dispatch, /* ShowAll */0);
-                        })
-                    })), React.createElement(GameView$Board, {
+                      onToggleSpymaster: onToggleSpymaster
+                    })), React.createElement(Board$Codenames.make, {
                   showAll: state.showAll,
                   tiles: state.tiles,
                   onClick: onClickTile
@@ -223,11 +95,6 @@ function GameView(Props) {
 var make = GameView;
 
 export {
-  Tile ,
-  Board ,
-  Button ,
-  Score ,
-  Header ,
   defaultState ,
   make ,
   

@@ -1,34 +1,38 @@
-html, body {
-  width: 100vw;
-  height: 100vh;
-  background: #706fd3;
-}
-
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
+html, body {
+  width: 100vw;
+  height: 100vh;
+  background: #706fd3;
+}
+
 .selected {
   border: 3px solid white;
 }
 
-.red {
+.selected.red,
+.spymaster .red {
   color: white;
   background: #b33939;
 }
 
-.gray {
+.selected.gray,
+.spymaster .gray {
   background: #f7f1e3;
 }
 
-.blue {
+.selected.blue,
+.spymaster .blue {
   color: #fff;
   background: #2c2c54;
 }
 
-.black {
+.selected.black,
+.spymaster .black {
   color: #fff;
   background-color: black;
 }

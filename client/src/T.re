@@ -2,10 +2,6 @@ type player =
   | Spymaster
   | Regular;
 
-type status =
-  | Hidden
-  | Turned;
-
 type color =
   | Black
   | Blue
@@ -14,11 +10,11 @@ type color =
 
 type tile = {
   word: string,
-  status,
+  selected: bool,
   color,
 };
 
-let getColor = color =>
+let toColorString = color =>
   switch (color) {
   | Blue => "blue"
   | Red => "red"
@@ -27,29 +23,29 @@ let getColor = color =>
   };
 
 let tiles = [|
-  {word: "LEMONS", status: Hidden, color: Black},
-  {word: "WATER", status: Hidden, color: Neutral},
-  {word: "ORANGE", status: Hidden, color: Blue},
-  {word: "COMPUTER", status: Hidden, color: Red},
-  {word: "DOLPHIN", status: Hidden, color: Blue},
-  {word: "ALASKAN", status: Hidden, color: Red},
-  {word: "ANTARTICA", status: Hidden, color: Blue},
-  {word: "TELEVISION", status: Hidden, color: Red},
-  {word: "PIEKARCZYK", status: Hidden, color: Blue},
-  {word: "MONKEY", status: Hidden, color: Neutral},
-  {word: "KITCHEN", status: Hidden, color: Neutral},
-  {word: "REFRIGERATOR", status: Hidden, color: Neutral},
-  {word: "BLUEBERRIES", status: Hidden, color: Blue},
-  {word: "TILES", status: Hidden, color: Red},
-  {word: "FLOOR", status: Hidden, color: Blue},
-  {word: "CONSOLE", status: Hidden, color: Red},
-  {word: "LAPTOP", status: Hidden, color: Blue},
-  {word: "MONITOR", status: Hidden, color: Red},
-  {word: "MATTHEWS", status: Hidden, color: Blue},
-  {word: "ZEBRA", status: Hidden, color: Neutral},
-  {word: "DESK", status: Hidden, color: Neutral},
-  {word: "FRESH", status: Hidden, color: Red},
-  {word: "PEPSI", status: Hidden, color: Neutral},
-  {word: "MOUSE", status: Hidden, color: Blue},
-  {word: "KEYBOARD", status: Hidden, color: Red},
+  {word: "LEMONS", selected: false, color: Black},
+  {word: "WATER", selected: false, color: Neutral},
+  {word: "ORANGE", selected: false, color: Blue},
+  {word: "COMPUTER", selected: false, color: Red},
+  {word: "DOLPHIN", selected: false, color: Blue},
+  {word: "ALASKAN", selected: false, color: Red},
+  {word: "ANTARTICA", selected: false, color: Blue},
+  {word: "TELEVISION", selected: false, color: Red},
+  {word: "PIEKARCZYK", selected: false, color: Blue},
+  {word: "MONKEY", selected: false, color: Neutral},
+  {word: "KITCHEN", selected: false, color: Neutral},
+  {word: "REFRIGERATOR", selected: false, color: Neutral},
+  {word: "BLUEBERRIES", selected: false, color: Blue},
+  {word: "TILES", selected: false, color: Red},
+  {word: "FLOOR", selected: false, color: Blue},
+  {word: "CONSOLE", selected: false, color: Red},
+  {word: "LAPTOP", selected: false, color: Blue},
+  {word: "MONITOR", selected: false, color: Red},
+  {word: "MATTHEWS", selected: false, color: Blue},
+  {word: "ZEBRA", selected: false, color: Neutral},
+  {word: "DESK", selected: false, color: Neutral},
+  {word: "FRESH", selected: false, color: Red},
+  {word: "PEPSI", selected: false, color: Neutral},
+  {word: "MOUSE", selected: false, color: Blue},
+  {word: "KEYBOARD", selected: false, color: Red},
 |];
