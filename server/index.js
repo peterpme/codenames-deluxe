@@ -1,9 +1,10 @@
-var express = require("express");
-var app = express();
 const fs = require("fs");
-var server = require("http").createServer(app);
-const io = require("socket.io")(server);
 const readline = require("readline");
+const express = require("express");
+
+const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 
 function shuffle(a) {
   var j, x, i;
@@ -32,7 +33,7 @@ async function getWords() {
     crlfDelay: Infinity,
   });
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     rl.on("line", (line) => {
       words.push(line);
     }).on("close", () => {
@@ -62,30 +63,37 @@ class Game {
   async getWords() {
     this.words = await getWords();
   }
+}
 
-  updateWord(word) {
-    this.words = this.words.map((word) => {
-      if (word.word === word) {
-        return {
-          ...word,
-          selected: true,
-        };
-      }
+const Games = {};
 
-      return word;
-    });
+function getGame(id) {
+  if (Games[id]) {
+    // TODO words don't always come back all the way
+    const game = Games[id];
+    return game;
+  } else {
+    const game = new Game(id);
+    Games[id] = game;
+    return game;
   }
 }
 
-app.get("game/:id", async (req, res) => {
+// get current game
+app.get("/games/:id", async (req, res) => {
+  const game = getGame(req.params.id);
+  res.json(game);
+});
+
+function createGame(id) {
   const gameId = req.params.id;
-  const game = Game.get(id);
-  if (game) {
-    return game;
-  } else {
-    const game = new Game(gameId);
-    return game;
-  }
+  return new Game(gameId);
+}
+
+// create game
+app.post("/games/:id", (req, res) => {
+  const game = createGame(req.params.id);
+  res.json(game);
 });
 
 function createRoom(data) {
@@ -100,10 +108,12 @@ function joinRoom(data) {
 io.on("connection", async (socket) => {
   console.log("connected", socket.id);
 
-  // emit game: score & words
-  const words = await getWords();
-  console.log(words.length);
-  socket.emit("joinGame", words);
+  socket.on("joinGame", (id) => {
+    console.log("joinGame", id);
+
+    // emit game: score & words
+    socket.emit("joinGame", []);
+  });
 
   // server reacts to client creating room
   socket.on("createRoom", (data) => createRoom(data));
