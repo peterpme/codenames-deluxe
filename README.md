@@ -10,7 +10,7 @@ A showcase & experiment using some :fire: tools :smile:
 - [Fly](https://fly.io)
 - [Redis](https://redis.io/)
 
-Using these tools we're able to create a infinitely scalable, globally available, playable on all platform game!
+Using these tools we're able to create a infinitely scalable, globally available, every platform playable, game!
 
 ## What is Codenames?
 
